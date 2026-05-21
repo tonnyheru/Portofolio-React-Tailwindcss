@@ -1,9 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBJxt6aeA1PREZxWSIxL0-rhEU_rolEf24",
     authDomain: "portofolio-eeba2.firebaseapp.com",
+    databaseURL: "https://portofolio-eeba2-default-rtdb.asia-southeast1.firebasedatabase.app",
     projectId: "portofolio-eeba2",
     storageBucket: "portofolio-eeba2.firebasestorage.app",
     messagingSenderId: "1030017351132",
@@ -12,3 +14,4 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const rtdb = getDatabase(app);

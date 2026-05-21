@@ -345,16 +345,16 @@ function Navbar({ active }) {
           </li>
 
           {[["featured", "Project"], ["resume", "Resume"], ["contact", "Contact"]].map(([id, label]) => (
-            <li key={id}>
-              <button
-                onClick={() => scrollTo(id)}
-                className={`px-3 py-2 rounded-lg text-[15px] font-medium transition-all duration-200
-                  ${active === id ? "text-crimson" : "text-white/85 hover:text-white hover:bg-white/7"}`}
-              >
-                {label}
-              </button>
-            </li>
-          ))}
+          <li key={id}>
+            <button
+              onClick={() => scrollTo(id)}
+              className={`px-3 py-2 rounded-lg text-[15px] font-medium transition-all duration-200
+                ${active === id ? "text-crimson" : "text-white/85 hover:text-white hover:bg-white/7"}`}
+            >
+              {label}
+            </button>
+          </li>
+        ))}
         </ul>
 
         {/* Mobile burger */}
@@ -388,7 +388,7 @@ function HomeSection() {
       id="home"
       className="relative flex items-center min-h-screen font-['Ubuntu',sans-serif] overflow-hidden"
       style={{
-        background: "url('../images/banner.jpg') center/cover no-repeat",
+        background: "url(./images/banner.jpg) center/cover no-repeat",
       }}
     >
       {/* Overlay */}
@@ -484,7 +484,7 @@ function AboutSection() {
           <div className="flex-shrink-0 flex justify-center" style={{ perspective: "1000px" }}>
             <img
               ref={imgRef}
-              src="../images/profile-1.png"
+              src="./images/profile-1.png"
               alt="M Tonny Heru Susanto S.Kom"
               className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] object-cover rounded-[20px] cursor-pointer transition-shadow duration-300"
               style={{
@@ -575,7 +575,7 @@ function SkillsSection() {
               <span className="w-2 h-2 rounded-full bg-crimson shadow-[0_0_8px_crimson] animate-pulse" />
               Full Stack Developer
             </div>
-            <p className="text-white/55 leading-7 mb-7 max-w-[480px]">
+            <p className="text-white/55 leading-7 mb-7 max-w-[480px] text-justify">
               Fokus saya adalah membangun aplikasi web yang scalable dan mudah dipelihara.
               Saya dapat mengerjakan end-to-end development: requirement gathering, desain database,
               pengembangan front-end/back-end, integrasi RESTful API, deployment, serta maintenance.
@@ -658,6 +658,13 @@ function SkillsSection() {
 ───────────────────────────────────────────── */
 function FeaturedSection() {
   const [ref, inView] = useInView();
+  const [activeImg, setActiveImg] = useState(0);
+
+  const galleryImages = [
+    { src: "./images/login.png", caption: "Halaman Login" },
+    { src: "./images/dashboard.png", caption: "Dashboard Utama" },
+    { src: "./images/modul.png", caption: "Halaman Modul" },
+  ];
 
   return (
     <section id="featured" className="py-20 bg-white font-['Poppins',sans-serif]">
@@ -721,18 +728,44 @@ function FeaturedSection() {
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex flex-wrap items-center justify-between gap-3 px-6 sm:px-9 py-4 border-t border-gray-100 bg-gray-50">
-            <span className="flex items-center gap-2 text-sm text-gray-500">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              Digunakan aktif oleh Pengadilan Negeri Bale Bandung
-            </span>
-            <a href="https://layungperadilan.pn-balebandung.go.id/login" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2 text-crimson font-semibold text-sm hover:gap-3 transition-all duration-200">
-              Lihat Langsung
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-            </a>
-          </div>
+              {/* Gallery */}
+            <div className="px-6 sm:px-9 pb-7">
+              <p className="text-[0.72rem] font-semibold text-gray-400 uppercase tracking-wider mb-3">Hasil</p>
+              <div className="relative rounded-xl overflow-hidden mb-3 bg-gray-100 aspect-video">
+                <img
+                  src={galleryImages[activeImg].src}
+                  alt={galleryImages[activeImg].caption}
+                  className="w-full h-full object-cover transition-all duration-500"
+                />
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
+                  {galleryImages[activeImg].caption}
+                </div>
+              </div>
+              <div className="flex gap-2">
+                {galleryImages.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImg(i)}
+                    className={`flex-1 aspect-video rounded-lg overflow-hidden border-2 transition-all duration-200 ${activeImg === i ? "border-crimson" : "border-transparent"}`}
+                  >
+                    <img src={img.src} alt={img.caption} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex flex-wrap items-center justify-between gap-3 px-6 sm:px-9 py-4 border-t border-gray-100 bg-gray-50">
+              <span className="flex items-center gap-2 text-sm text-gray-500">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                Digunakan aktif oleh Pengadilan Negeri Bale Bandung
+              </span>
+                <a href="https://layungperadilan.pn-balebandung.go.id/login" target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 text-crimson font-semibold text-sm hover:gap-3 transition-all duration-200">
+                Lihat Langsung
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              </a>
+            </div>
         </div>
       </div>
     </section>
@@ -862,18 +895,20 @@ function ResumeBlock({ title, icon, children }) {
 /* ─────────────────────────────────────────────
                 CONTACT SECTION
    ───────────────────────────────────────────── */
-import { db } from "./firebase";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-} from "firebase/firestore";
+  import { db, rtdb } from "./firebase";
+  import { ref, onValue, onDisconnect, set, serverTimestamp as rtServerTimestamp } from "firebase/database";
+  import {
+    collection,
+    addDoc,
+    onSnapshot,
+    orderBy,
+    query,
+    serverTimestamp,
+  } from "firebase/firestore";
 
-function ContactSection() {
-  const [messages, setMessages] = useState([]); // ✅ ganti INITIAL_MESSAGES → []
+function ContactSection({ onMessagesChange }) {
+  const onlineCount = useOnlineCount(); 
+  const [messages, setMessages] = useState([]);
   const [chatInput, setChatInput] = useState("");
   const [chatName, setChatName] = useState("");
   const [name, setName] = useState("");
@@ -882,21 +917,22 @@ function ContactSection() {
   const [message, setMessage] = useState("");
   const chatEndRef = useRef(null);
 
-  // ✅ TAMBAHKAN useEffect ini
+  //  TAMBAHKAN useEffect ini
   useEffect(() => {
-    const q = query(collection(db, "chatMessages"), orderBy("createdAt", "asc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMessages(msgs);
-      setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
-    });
-    return () => unsubscribe();
-  }, []);
+  const q = query(collection(db, "chatMessages"), orderBy("createdAt", "asc"));
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const msgs = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setMessages(msgs);
+    onMessagesChange(msgs); 
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
+  });
+  return () => unsubscribe();
+}, []);
 
-  // ✅ GANTI sendChat lama dengan ini
+  // GANTI sendChat lama dengan ini
   const sendChat = async () => {
     const text = chatInput.trim();
     const sender = chatName.trim() || "Anonim";
@@ -916,7 +952,7 @@ function ContactSection() {
     setChatInput("");
   };
 
-  // ✅ sendMail tetap sama, tidak perlu diubah
+  // sendMail tetap sama, tidak perlu diubah
   const sendMail = (e) => {
     e.preventDefault();
     const serviceID = "service_b7jg21v";
@@ -939,7 +975,7 @@ function ContactSection() {
   return (
     <section id="contact" className="py-20 bg-[#0f1117] font-['Poppins',sans-serif]">
       <div ref={ref} className="max-w-[1300px] mx-auto px-5 sm:px-20">
-        <h2 className="text-center text-white text-4xl sm:text-5xl font-semibold mb-2 font-['Ubuntu',sans-serif]">Contact &amp; Chat</h2>
+        <h2 className="text-center text-crimson text-4xl sm:text-5xl font-semibold mb-2 font-['Ubuntu',sans-serif]">Contact &amp; Chat</h2>
         <div className="w-12 h-0.5 bg-crimson mx-auto mb-2 rounded" />
         <p className="text-center text-white/40 text-sm mb-12">Hubungi saya langsung atau tinggalkan pesan</p>
 
@@ -949,11 +985,11 @@ function ContactSection() {
             <div className="bg-[#1f2235] px-5 py-3.5 flex items-center gap-2.5 border-b border-[#2a2d3a]">
               <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
               <span className="text-white font-semibold text-[15px]">Live Chat Room</span>
-              <span className="ml-auto bg-crimson text-white text-[11px] font-semibold px-3 py-1 rounded-full">3 online</span>
+              <span className="ml-auto bg-crimson text-white text-[11px] font-semibold px-3 py-1 rounded-full">{onlineCount} online</span>
             </div>
             <div className="flex-1 p-4 h-[280px] overflow-y-auto flex flex-col gap-3 scrollbar-thin scrollbar-color-[#2a2d3a]">
               {messages.map((m) => (
-                <div key={m.id} className={`flex items-start gap-2.5 ${m.self ? "flex-row-reverse" : ""}`}>
+                <div key={m.id} className={`flex items-start gap-2.5 message-in ${m.self ? "flex-row-reverse" : ""}`}>
                   <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-sm font-semibold text-white"
                     style={{ background: m.color }}>{m.initial}</div>
                   <div className={`px-3 py-2.5 max-w-[85%] rounded-[10px] ${m.self ? "bg-crimson rounded-tr-none" : "bg-[#252836] rounded-tl-none"}`}>
@@ -1066,15 +1102,88 @@ function Footer() {
 function SectionTitle({ title, sub, light, dark }) {
   return (
     <div className="text-center mb-14 relative">
-      <h2 className={`text-4xl sm:text-5xl font-semibold font-['Ubuntu',sans-serif] pb-5 ${dark ? "text-white" : "text-gray-900"}`}>
+      <h2 className={`text-4xl sm:text-5xl font-semibold font-['Ubuntu',sans-serif] pb-5 ${dark ? "text-crimson" : "text-gray-900"}`}>
         {title}
       </h2>
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 h-0.5 bg-black" />
       {sub && (
-        <p className="mt-3 text-sm text-gray-500 bg-white px-3 py-0.5 inline-block relative z-10 font-['Poppins',sans-serif]">
+        <p className="mt-3 text-sm text-white/30 tracking-widest uppercase font-['Poppins',sans-serif]">
           {sub}
         </p>
       )}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   CHAT NOTIFICATION
+───────────────────────────────────────────── */
+function ChatNotification({ messages }) {
+  const [notif, setNotif] = useState(null);
+  const prevCountRef = useRef(0);
+
+  useEffect(() => {
+    if (messages.length > prevCountRef.current && prevCountRef.current !== 0) {
+      const latest = messages[messages.length - 1];
+      setNotif(latest);
+      const timer = setTimeout(() => setNotif(null), 4000);
+      return () => clearTimeout(timer);
+    }
+    prevCountRef.current = messages.length;
+  }, [messages]);
+
+  if (!notif) return null;
+
+  return (
+    <div
+      className="fixed top-20 right-5 z-[99999] bg-[#1a1d27] border border-[#2a2d3a] rounded-xl px-4 py-3 flex items-center gap-3 shadow-xl transition-all duration-300"
+      style={{ animation: "fadeUp 0.3s ease forwards" }}
+    >
+      <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-sm font-semibold text-white"
+        style={{ background: notif.color }}>
+        {notif.initial}
+      </div>
+      <div>
+        <p className="text-[11px] text-white/50 mb-0.5">{notif.sender} mengirim pesan</p>
+        <p className="text-[13px] text-white font-medium">{notif.text}</p>
+      </div>
+      <span className="text-crimson text-lg">💬</span>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   FLOATING SOCIAL
+───────────────────────────────────────────── */
+function FloatingSocial() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const h = () => setShow(window.scrollY > 300);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
+    const socials = [
+      { href: "https://github.com/tonnyheru", img: "https://cdn.simpleicons.org/github/ffffff", label: "GitHub" },
+      { href: "https://instagram.com/tonnyheru", img: "https://cdn.simpleicons.org/instagram/ffffff", label: "Instagram" },
+      { href: "https://linkedin.com/in/tonnyheru", img: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg", label: "LinkedIn" },
+      { href: "https://mail.google.com/mail/?view=cm&to=tonnyheru29@gmail.com", img: "https://cdn.simpleicons.org/gmail/ffffff", label: "Email" },
+    ];
+
+  return (
+    <div
+      className="fixed left-5 bottom-7 z-[9999] flex flex-col gap-2.5 transition-all duration-500"
+      style={{ opacity: show ? 1 : 0, transform: show ? "translateY(0)" : "translateY(20px)", pointerEvents: show ? "auto" : "none" }}
+    >
+      {socials.map((s) => (
+        <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" title={s.label}
+          className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-crimson hover:bg-crimson hover:-translate-y-1">
+          <img src={s.img} alt={s.label} className="w-5 h-5 object-contain"
+          style={{ filter: s.label === "LinkedIn" ? "brightness(0) invert(1)" : "none" }} />
+        </a>
+      ))}
+      <div className="w-px h-12 bg-white/20 mx-auto" />
     </div>
   );
 }
@@ -1123,39 +1232,69 @@ function useActiveSection() {
 }
 
 /* ─────────────────────────────────────────────
+   ONLINE COUNT HOOK
+───────────────────────────────────────────── */
+function useOnlineCount() {
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    const userRef = ref(rtdb, `online/${Date.now()}`);
+    set(userRef, { joinedAt: rtServerTimestamp() }); // ✅ di sini
+    onDisconnect(userRef).remove();
+
+    const onlineRef = ref(rtdb, "online");
+    const unsub = onValue(onlineRef, (snapshot) => {
+      setCount(snapshot.size || 1);
+    });
+
+    return () => {
+      unsub();
+      set(userRef, null);
+    };
+  }, []);
+
+  return count;
+}
+/* ─────────────────────────────────────────────
    ROOT APP
 ───────────────────────────────────────────── */
 export default function App() {
   const [loaded, setLoaded] = useState(false);
+  const [globalMessages, setGlobalMessages] = useState([]); 
   const active = useActiveSection();
   const handleDone = useCallback(() => setLoaded(true), []);
 
   return (
     <>
       {/* Global keyframe styles */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap');
-        :root { --crimson: #DC143C; }
-        .text-crimson { color: crimson; }
-        .bg-crimson { background: crimson; }
-        .border-crimson { border-color: crimson; }
-        @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
-        @keyframes nameShine { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
-        @keyframes gradientText { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-        @keyframes gradientMove { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fadeUp { animation: fadeUp 0.8s ease forwards; }
-        @keyframes blobMove1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(100px,80px) scale(1.2); } }
-        @keyframes blobMove2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-80px,-60px) scale(1.15); } }
-        .animate-blob1 { animation: blobMove1 6s ease-in-out infinite alternate; }
-        .animate-blob2 { animation: blobMove2 6s ease-in-out infinite alternate; }
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        html { scroll-behavior: smooth; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #111; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
-      `}</style>
+    <style>{`
+  @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap');
+  :root { --crimson: #DC143C; }
+  .text-crimson { color: crimson; }
+  .bg-crimson { background: crimson; }
+  .border-crimson { border-color: crimson; }
+  @keyframes shimmer { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+  @keyframes nameShine { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
+  @keyframes gradientText { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+  @keyframes gradientMove { 0% { background-position: 0% center; } 100% { background-position: 300% center; } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .animate-fadeUp { animation: fadeUp 0.8s ease forwards; }
+  @keyframes blobMove1 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(100px,80px) scale(1.2); } }
+  @keyframes blobMove2 { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(-80px,-60px) scale(1.15); } }
+  .animate-blob1 { animation: blobMove1 6s ease-in-out infinite alternate; }
+  .animate-blob2 { animation: blobMove2 6s ease-in-out infinite alternate; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  html { scroll-behavior: smooth; }
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: #111; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #555; }
+  @keyframes messageIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .message-in { animation: messageIn 0.35s ease forwards; }
+`}</style>
 
       {!loaded && <Loader onDone={handleDone} />}
       <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.5s ease" }}>
@@ -1165,9 +1304,11 @@ export default function App() {
         <SkillsSection />
         <FeaturedSection />
         <ResumeSection />
-        <ContactSection />
+        <ContactSection onMessagesChange={setGlobalMessages} />
+        <ChatNotification messages={globalMessages} />
         <Footer />
         <ScrollUp />
+        <FloatingSocial />
       </div>
     </>
   );
