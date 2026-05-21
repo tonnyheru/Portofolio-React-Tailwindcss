@@ -1262,7 +1262,10 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [globalMessages, setGlobalMessages] = useState([]); 
   const active = useActiveSection();
-  const handleDone = useCallback(() => setLoaded(true), []);
+  const handleDone = useCallback(() => {
+      setLoaded(true);
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }, []);
 
   return (
     <>
