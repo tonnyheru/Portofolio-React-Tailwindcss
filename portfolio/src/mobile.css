@@ -1,0 +1,92 @@
+/* ═══════════════════════════════════════
+   MOBILE RESPONSIVE — Global Fixes
+   Max-width: 768px
+═══════════════════════════════════════ */
+
+/* ─── About ─── */
+@media (max-width: 768px) {
+  .about-container { padding: 0 20px !important; }
+
+  /* Stack photo + content vertically & center photo */
+  #about > div > div:last-child {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 32px !important;
+  }
+
+  /* Shrink photo on mobile */
+  #about img[alt*="Tonny"] {
+    width: 220px !important;
+    height: 260px !important;
+  }
+
+  /* Fun facts full width */
+  #about .fact-item { grid-column: span 2; }
+}
+
+/* ─── Projects ─── */
+@media (max-width: 768px) {
+  .projects-container { padding: 0 20px !important; }
+}
+
+/* ─── Resume ─── */
+@media (max-width: 900px) {
+  .resume-container { padding: 0 20px !important; }
+  .resume-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ─── Contact ─── */
+@media (max-width: 768px) {
+  .contact-container { padding: 0 20px !important; }
+  .contact-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ─── Navbar ─── */
+@media (max-width: 768px) {
+  .nav-desktop { display: none !important; }
+  .nav-burger  { display: flex !important; }
+  .nav-inner   { padding: 0 20px !important; }
+}
+
+/* ─── Footer ─── */
+@media (max-width: 600px) {
+  footer {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 16px 20px !important;
+    gap: 6px !important;
+  }
+  footer > p {
+    grid-column: unset !important;
+    text-align: center !important;
+  }
+}
+
+/* ─── Resume timeline — stack cards on mobile ─── */
+@media (max-width: 600px) {
+  /* Force all timeline nodes to left-aligned */
+  #resume [style*="flex-direction"] {
+    flex-direction: row !important;
+  }
+}
+
+/* ─── General text size clamps ─── */
+@media (max-width: 480px) {
+  html { font-size: 15px; }
+
+  /* Prevent overflow */
+  section { overflow-x: hidden !important; }
+
+  /* Fix grid contact info */
+  .contact-grid > div > div > div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ─── Contact info grid ─── */
+@media (max-width: 480px) {
+  .contact-info-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
