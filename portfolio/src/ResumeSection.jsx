@@ -37,7 +37,7 @@ const TIMELINE = [
     subtitle: "Pengadilan Negeri Bale Bandung",
     period: "Feb 2025 – Agt 2025",
     color: "#DC143C",
-    description: "Magang sebagai Full Stack Developer selama 6 bulan. Membangun sistem administrasi peradilan Layung Peradilan secara mandiri dari requirement gathering hingga deployment production.",
+    description: "Magang sebagai Full Stack Developer selama 6 bulan. Membangun sistem administrasi peradilan Layung Peradilan dari requirement gathering hingga deployment production.",
     tags: ["Magang", "Full Stack", "Laravel", "PHP", "MySQL", "RESTful API"],
     highlight: "Nilai 90/100",
   },
@@ -50,7 +50,7 @@ const TIMELINE = [
     subtitle: "Production Deployment",
     period: "Agt 2025",
     color: "#059669",
-    description: "Sistem Layung Peradilan berhasil di-deploy ke production dan aktif digunakan oleh Pengadilan Negeri Bale Bandung. Terintegrasi dengan 3 API Disdukcapil.",
+    description: "Sistem Layung Peradilan berhasil di-deploy ke production dan aktif digunakan oleh Pengadilan Negeri Bale Bandung. Terintegrasi dengan API untuk Disdukcapil Cimahi.",
     tags: ["Production", "Deployment", "Achievement"],
     highlight: "Live hingga sekarang",
   },
@@ -73,8 +73,8 @@ const TIMELINE = [
     type: "current",
     icon: "🎯",
     title: "Open to Work",
-    subtitle: "Bandung & Remote",
-    period: "2026 – ...",
+    subtitle: "Bandung",
+    period: "2026",
     color: "#22c55e",
     description: "Aktif mencari peluang kerja sebagai Full Stack Developer atau Web Developer. Siap berkontribusi dan terus belajar teknologi baru.",
     tags: ["Available", "Full Stack", "Remote Friendly"],
@@ -108,24 +108,22 @@ function useInView(threshold = 0.15) {
   return [ref, inView];
 }
 
-/* ─── SKILL BAR ─── */
-function SkillBar({ label, level, color, inView }) {
+/* ─── SKILL TAG ─── */
+function SkillTag({ label, color, icon }) {
   return (
-    <div style={{ marginBottom: 12 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>{label}</span>
-        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>{level}%</span>
-      </div>
-      <div style={{ height: 4, background: "rgba(255,255,255,0.06)", borderRadius: 99, overflow: "hidden" }}>
-        <div style={{
-          height: "100%",
-          width: inView ? `${level}%` : "0%",
-          background: `linear-gradient(to right, ${color}, ${color}99)`,
-          borderRadius: 99,
-          transition: "width 1.2s cubic-bezier(0.4,0,0.2,1)",
-          boxShadow: `0 0 8px ${color}55`,
-        }} />
-      </div>
+    <div style={{
+      display: "inline-flex", alignItems: "center", gap: 8,
+      border: `1.5px solid ${color}`,
+      borderRadius: 999, padding: "6px 14px",
+      background: `${color}12`,
+      transition: "transform 0.2s, box-shadow 0.2s",
+      cursor: "none",
+    }}
+    onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 4px 14px ${color}40`; }}
+    onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}>
+      <img src={`https://cdn.simpleicons.org/${icon}/${color.replace("#","")}`} alt={label}
+        style={{ width: 14, height: 14, objectFit: "contain", flexShrink: 0 }} />
+      <span style={{ fontSize: 12, fontWeight: 600, color, whiteSpace: "nowrap" }}>{label}</span>
     </div>
   );
 }
@@ -145,28 +143,37 @@ function TimelineNode({ item, index, isActive, onClick }) {
   }, []);
 
   return (
-    <div
-      ref={nodeRef}
-      onClick={onClick}
-      style={{
-        display: "flex",
-        flexDirection: index % 2 === 0 ? "row" : "row-reverse",
-        alignItems: "flex-start",
-        gap: 0,
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(24px)",
-        transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
-        cursor: "none",
-        marginBottom: 8,
-      }}
-    >
-      {/* Card side */}
-      <div style={{
-        flex: 1,
-        padding: index % 2 === 0 ? "0 28px 0 0" : "0 0 0 28px",
-        display: "flex",
-        justifyContent: index % 2 === 0 ? "flex-end" : "flex-start",
-      }}>
+    <>
+      <style>{`
+        @media (max-width: 600px) {
+          .timeline-node { flex-direction: row !important; }
+          .timeline-card-wrap { padding: 0 0 0 16px !important; justify-content: flex-start !important; }
+          .timeline-empty { display: none !important; }
+        }
+      `}</style>
+      <div
+        ref={nodeRef}
+        onClick={onClick}
+        className="timeline-node"
+        style={{
+          display: "flex",
+          flexDirection: index % 2 === 0 ? "row" : "row-reverse",
+          alignItems: "flex-start",
+          gap: 0,
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(24px)",
+          transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
+          cursor: "none",
+          marginBottom: 8,
+        }}
+      >
+        {/* Card side */}
+        <div className="timeline-card-wrap" style={{
+          flex: 1,
+          padding: index % 2 === 0 ? "0 28px 0 0" : "0 0 0 28px",
+          display: "flex",
+          justifyContent: index % 2 === 0 ? "flex-end" : "flex-start",
+        }}>
         <div
           style={{
             maxWidth: 320,
@@ -201,7 +208,7 @@ function TimelineNode({ item, index, isActive, onClick }) {
 
           {isActive && (
             <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 10, marginTop: 4 }}>
-              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 10 }}>{item.description}</p>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.7, marginBottom: 10, textAlign: "justify" }}>{item.description}</p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {item.tags.map((t) => (
                   <span key={t} style={{
@@ -239,8 +246,9 @@ function TimelineNode({ item, index, isActive, onClick }) {
       </div>
 
       {/* Empty opposite side */}
-      <div style={{ flex: 1 }} />
+      <div className="timeline-empty" style={{ flex: 1 }} />
     </div>
+    </>
   );
 }
 
@@ -254,18 +262,21 @@ function hexToRgb(hex) {
 /* ─── MAIN SECTION ─── */
 export default function ResumeSection() {
   const [activeId, setActiveId] = useState(3);
-  const [skillsRef, skillsInView] = useInView();
   const [titleRef, titleInView] = useInView(0.1);
 
   const SKILLS = [
-    { label: "PHP & Laravel", level: 85, color: "#DC143C" },
-    { label: "JavaScript", level: 78, color: "#f59e0b" },
-    { label: "MySQL & SQL", level: 82, color: "#0ea5e9" },
-    { label: "HTML & CSS", level: 88, color: "#6366f1" },
-    { label: "RESTful API", level: 80, color: "#059669" },
-    { label: "Git & Version Control", level: 72, color: "#ec4899" },
-    { label: "React & Vite", level: 65, color: "#22d3ee" },
-    { label: "Adobe Photoshop", level: 60, color: "#f97316" },
+    { label: "PHP",              color: "#8892bf", icon: "php" },
+    { label: "Laravel",          color: "#FF2D20", icon: "laravel" },
+    { label: "MySQL",            color: "#4479A1", icon: "mysql" },
+    { label: "HTML5",            color: "#E34F26", icon: "html5" },
+    { label: "CSS3",             color: "#1572B6", icon: "css" },
+    { label: "JavaScript",       color: "#F7DF1E", icon: "javascript" },
+    { label: "RESTful API",      color: "#FF6C37", icon: "postman" },
+    { label: "Git",              color: "#F05032", icon: "git" },
+    { label: "React",            color: "#61DAFB", icon: "react" },
+    { label: "Vite",             color: "#646CFF", icon: "vite" },
+    { label: "Firebase",         color: "#FFCA28", icon: "firebase" },
+    { label: "Photoshop",        color: "#31A8FF", icon: "adobephotoshop" },
   ];
 
   return (
@@ -346,10 +357,6 @@ export default function ResumeSection() {
                 />
               ))}
             </div>
-
-            <p style={{ textAlign: "center", fontSize: 11, color: "rgba(255,255,255,0.2)", marginTop: 16 }}>
-              Klik milestone untuk detail
-            </p>
           </div>
 
           {/* RIGHT — Profile + Skills + Contact */}
@@ -370,7 +377,7 @@ export default function ResumeSection() {
               }}>
                 <span>👤</span> Profil
               </h3>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.85 }}>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.85, textAlign: "justify" }}>
                 Fresh graduate S1 Teknik Informatika dengan pengalaman nyata membangun sistem yang aktif di
                 production. Memahami alur pengembangan end-to-end, integrasi API, dan pengelolaan database MySQL.
                 Senang belajar hal baru dan siap berkontribusi sesuai kebutuhan perusahaan.
@@ -379,7 +386,6 @@ export default function ResumeSection() {
 
             {/* Skills */}
             <div
-              ref={skillsRef}
               style={{
                 background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
                 borderRadius: 18, padding: "24px 24px",
@@ -395,9 +401,11 @@ export default function ResumeSection() {
               }}>
                 <span>💻</span> Tech Skills
               </h3>
-              {SKILLS.map((s) => (
-                <SkillBar key={s.label} {...s} inView={skillsInView} />
-              ))}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {SKILLS.map((s) => (
+                  <SkillTag key={s.label} {...s} />
+                ))}
+              </div>
             </div>
 
             {/* Soft skills */}

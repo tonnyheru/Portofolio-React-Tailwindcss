@@ -70,8 +70,8 @@ export default function AboutSection() {
   const FUN_FACTS = [
     { icon: "🎓", text: "IPK 3.65 · S1 Teknik Informatika UNIBI" },
     { icon: "🏛️", text: "Proyek aktif di Pengadilan Negeri Bale Bandung" },
-    { icon: "🔗", text: "Integrasi 3 API Disdukcapil berbeda" },
-    { icon: "📍", text: "Bandung · Tersedia Remote" },
+    { icon: "🔗", text: "Integrasi API Disdukcapil Cimahi" },
+    { icon: "📍", text: "Bandung" },
   ];
 
   return (
@@ -150,11 +150,11 @@ export default function AboutSection() {
 
             <p style={{ fontSize:14, color:"#555", lineHeight:1.9, marginBottom:14, textAlign:"justify" }}>
               Lulusan S1 Teknik Informatika dari <strong style={{ color:"#111" }}>UNIBI Bandung</strong> dengan IPK{" "}
-              <strong style={{ color:"crimson" }}>3.65</strong> dan pengalaman nyata membangun sistem yang aktif berjalan di production.
+              <strong style={{ color:"crimson" }}>3.65</strong> dan pengalaman membangun sistem yang aktif berjalan di production.
             </p>
             <p style={{ fontSize:14, color:"#555", lineHeight:1.9, marginBottom:24, textAlign:"justify" }}>
               Selama magang di <strong style={{ color:"#111" }}>Pengadilan Negeri Bale Bandung</strong>, saya membangun{" "}
-              <strong style={{ color:"crimson" }}>Layung Peradilan</strong> secara mandiri — mulai dari requirement gathering,
+              <strong style={{ color:"crimson" }}>Aplikasi Layung Peradilan</strong> — mulai dari requirement gathering,
               desain database, development full stack, integrasi 3 API Disdukcapil, hingga deployment & maintenance.
             </p>
 

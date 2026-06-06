@@ -170,62 +170,194 @@ function useInView(threshold = 0.15) {
 }
 
 /* ─────────────────────────────────────────────
-   LOADER
+   LOADER — Cinematic Intro
 ───────────────────────────────────────────── */
 function Loader({ onDone }) {
-  const [count, setCount] = useState(0);
-  const [hiding, setHiding] = useState(false);
+  const [count, setCount]   = useState(0);
+  const [phase, setPhase]   = useState(0); // 0=counting, 1=reveal, 2=exit
+  const canvasRef           = useRef(null);
 
+  /* particle canvas */
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCount((c) => {
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext("2d");
+    c.width  = window.innerWidth;
+    c.height = window.innerHeight;
+
+    const pts = Array.from({ length: 60 }, () => ({
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
+      r: Math.random() * 1.5 + 0.3,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      a: Math.random() * 0.4 + 0.1,
+    }));
+
+    let raf;
+    const draw = () => {
+      ctx.clearRect(0, 0, c.width, c.height);
+      for (const p of pts) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = c.width;
+        if (p.x > c.width) p.x = 0;
+        if (p.y < 0) p.y = c.height;
+        if (p.y > c.height) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(220,20,60,${p.a})`;
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  /* counter */
+  useEffect(() => {
+    const t = setInterval(() => {
+      setCount(c => {
         if (c >= 100) {
-          clearInterval(timer);
-          setTimeout(() => setHiding(true), 400);
-          setTimeout(() => onDone(), 1200);
+          clearInterval(t);
+          setTimeout(() => setPhase(1), 300);
+          setTimeout(() => setPhase(2), 1100);
+          setTimeout(() => onDone(), 1800);
           return 100;
         }
         return c + 1;
       });
-    }, 18);
-    return () => clearInterval(timer);
+    }, 16);
+    return () => clearInterval(t);
   }, [onDone]);
 
   return (
-    <div
-      className="fixed inset-0 z-[99999] flex flex-col items-center justify-center gap-8 bg-[#0a0a0a] transition-all duration-[800ms]"
-      style={{ opacity: hiding ? 0 : 1, pointerEvents: hiding ? "none" : "all" }}
-    >
-      {/* bg blobs */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-[600px] h-[600px] -top-24 -left-24 rounded-full animate-blob1"
-          style={{ background: "radial-gradient(circle, rgba(220,20,60,0.28) 0%, transparent 70%)" }} />
-        <div className="absolute w-[500px] h-[500px] -bottom-24 -right-24 rounded-full animate-blob2"
-          style={{ background: "radial-gradient(circle, rgba(64,121,255,0.22) 0%, transparent 70%)" }} />
+    <div style={{
+      position: "fixed", inset: 0, zIndex: 99999,
+      background: "#04040a",
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      overflow: "hidden",
+      opacity: phase === 2 ? 0 : 1,
+      transform: phase === 2 ? "scale(1.04)" : "scale(1)",
+      transition: phase === 2 ? "opacity 0.7s ease, transform 0.7s ease" : "none",
+    }}>
+      <style>{`
+        @keyframes loaderFadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes loaderShimmer { 0%{background-position:0% 50%} 100%{background-position:300% 50%} }
+        @keyframes scanLine { 0%{transform:translateY(-100%)} 100%{transform:translateY(100vh)} }
+        @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+        @keyframes revealScale { from{opacity:0;transform:scale(0.92)} to{opacity:1;transform:scale(1)} }
+        .loader-name { animation: loaderFadeUp 0.6s ease 0.2s both; }
+        .loader-counter { animation: loaderFadeUp 0.6s ease 0.4s both; }
+        .loader-bar { animation: loaderFadeUp 0.6s ease 0.6s both; }
+        .loader-sub { animation: loaderFadeUp 0.6s ease 0.8s both; }
+        .loader-reveal { animation: revealScale 0.5s ease both; }
+      `}</style>
+
+      {/* Particle canvas */}
+      <canvas ref={canvasRef} style={{ position:"absolute", inset:0, width:"100%", height:"100%", pointerEvents:"none" }} />
+
+      {/* Scan line effect */}
+      <div style={{
+        position: "absolute", left: 0, right: 0, height: 2,
+        background: "linear-gradient(to right, transparent, rgba(220,20,60,0.4), transparent)",
+        animation: "scanLine 3s linear infinite",
+        pointerEvents: "none",
+      }} />
+
+      {/* Grid overlay */}
+      <div style={{
+        position: "absolute", inset: 0,
+        backgroundImage: "linear-gradient(rgba(220,20,60,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(220,20,60,0.03) 1px, transparent 1px)",
+        backgroundSize: "60px 60px",
+        pointerEvents: "none",
+      }} />
+
+      {/* Corner accents */}
+      {[
+        { top:24, left:24, borderTop:"1.5px solid rgba(220,20,60,0.5)", borderLeft:"1.5px solid rgba(220,20,60,0.5)" },
+        { top:24, right:24, borderTop:"1.5px solid rgba(220,20,60,0.5)", borderRight:"1.5px solid rgba(220,20,60,0.5)" },
+        { bottom:24, left:24, borderBottom:"1.5px solid rgba(220,20,60,0.5)", borderLeft:"1.5px solid rgba(220,20,60,0.5)" },
+        { bottom:24, right:24, borderBottom:"1.5px solid rgba(220,20,60,0.5)", borderRight:"1.5px solid rgba(220,20,60,0.5)" },
+      ].map((s, i) => (
+        <div key={i} style={{ position:"absolute", width:28, height:28, ...s, animation:`loaderFadeUp 0.5s ease ${i*0.08}s both` }} />
+      ))}
+
+      {/* Main content */}
+      <div style={{ position:"relative", zIndex:2, display:"flex", flexDirection:"column", alignItems:"center", gap:20 }}>
+
+        {/* Logo / nama */}
+        <div className="loader-name" style={{ textAlign:"center" }}>
+          <p style={{ fontSize:11, letterSpacing:"0.35em", textTransform:"uppercase", color:"rgba(220,20,60,0.7)", marginBottom:10, fontFamily:"'Poppins',sans-serif" }}>
+            Welcome to
+          </p>
+          <h1 style={{
+            fontSize:"clamp(28px,5vw,52px)", fontWeight:700, lineHeight:1.1,
+            fontFamily:"'Ubuntu',sans-serif",
+            background:"linear-gradient(to right, #ffffff, #f4d0d7, #ffffff, #f4d0d7, #ffffff)",
+            backgroundSize:"300% auto", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
+            backgroundClip:"text", animation:"loaderShimmer 3s linear infinite",
+          }}>
+            Porto<span style={{ WebkitTextFillColor:"crimson" }}>folio</span>
+          </h1>
+        </div>
+
+        {/* Divider */}
+        <div style={{ width:1, height:40, background:"linear-gradient(to bottom, transparent, rgba(220,20,60,0.5), transparent)", animation:"pulse 2s ease infinite" }} />
+
+        {/* Counter */}
+        <div className="loader-counter" style={{ position:"relative" }}>
+          <div style={{
+            fontSize:"clamp(64px,12vw,100px)", fontWeight:700, lineHeight:1,
+            fontFamily:"'Ubuntu',sans-serif",
+            background:"linear-gradient(135deg, white 0%, crimson 60%, white 100%)",
+            backgroundSize:"200% auto", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent",
+            backgroundClip:"text", animation:"loaderShimmer 1.5s linear infinite",
+          }}>
+            {String(count).padStart(2,"0")}
+            <span style={{ fontSize:"30%", WebkitTextFillColor:"rgba(220,20,60,0.6)", fontWeight:400 }}>%</span>
+          </div>
+          {/* Glow behind number */}
+          <div style={{
+            position:"absolute", inset:-20, borderRadius:"50%",
+            background:"radial-gradient(circle, rgba(220,20,60,0.15) 0%, transparent 65%)",
+            filter:"blur(20px)", pointerEvents:"none",
+          }} />
+        </div>
+
+        {/* Progress bar */}
+        <div className="loader-bar" style={{ width:"min(280px,70vw)" }}>
+          <div style={{ height:2, background:"rgba(255,255,255,0.08)", borderRadius:99, overflow:"hidden", marginBottom:8 }}>
+            <div style={{
+              height:"100%", borderRadius:99,
+              width:`${count}%`,
+              background:"linear-gradient(to right, #8b0000, crimson, #ff6b6b)",
+              boxShadow:"0 0 12px rgba(220,20,60,0.8)",
+              transition:"width 16ms linear",
+            }} />
+          </div>
+          <div style={{ display:"flex", justifyContent:"space-between" }}>
+            <span style={{ fontSize:9, letterSpacing:"0.2em", color:"rgba(255,255,255,0.2)", textTransform:"uppercase" }}>Loading</span>
+            <span style={{ fontSize:9, letterSpacing:"0.2em", color:"rgba(220,20,60,0.5)", textTransform:"uppercase" }}>
+              {count < 30 ? "Initializing..." : count < 60 ? "Loading assets..." : count < 90 ? "Almost there..." : "Ready!"}
+            </span>
+          </div>
+        </div>
+
+        {/* Sub text */}
+        <p className="loader-sub" style={{ fontSize:10, letterSpacing:"0.25em", color:"rgba(255,255,255,0.18)", textTransform:"uppercase", fontFamily:"'Poppins',sans-serif" }}>
+          Full Stack Developer · Bandung
+        </p>
       </div>
-      <p className="relative z-10 font-mono text-sm tracking-[0.35em] uppercase text-white/40 animate-fadeUp">
-        M Tonny Heru Susanto S.Kom
-      </p>
-      <div
-        className="relative z-10 text-[6rem] sm:text-[8rem] font-bold leading-none font-mono"
-        style={{
-          background: "linear-gradient(135deg, #fff 0%, crimson 50%, #fff 100%)",
-          backgroundSize: "200% auto",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-          animation: "shimmer 2s linear infinite",
-        }}
-      >
-        {String(count).padStart(2, "0")}
-      </div>
-      <div className="relative z-10 w-48 h-[2px] bg-white/10 rounded-full overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-[18ms] linear"
-          style={{ width: `${count}%`, background: "linear-gradient(to right, crimson, #ff6b6b)", boxShadow: "0 0 10px crimson" }}
-        />
-      </div>
-      <p className="relative z-10 text-[0.65rem] tracking-[0.2em] uppercase text-white/20">Full Stack Developer</p>
+
+      {/* Reveal overlay — white flash on exit */}
+      {phase >= 1 && (
+        <div className="loader-reveal" style={{
+          position:"absolute", inset:0,
+          background:"linear-gradient(135deg, rgba(220,20,60,0.15), rgba(0,0,0,0.95))",
+          zIndex:3,
+        }} />
+      )}
     </div>
   );
 }
@@ -370,14 +502,24 @@ function SkillsSection() {
 ───────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer style={{ background:"#060608", borderTop:"1px solid rgba(255,255,255,0.06)", padding:"20px 40px", fontFamily:"'Poppins',sans-serif", display:"grid", gridTemplateColumns:"1fr auto 1fr", alignItems:"center", gap:12 }}>
-      <span style={{ fontSize:20, fontWeight:700, color:"white", fontFamily:"'Ubuntu',sans-serif" }}>
-        Porto<span style={{ color:"crimson" }}>folio</span>
-      </span>
-      <p style={{ fontSize:13, color:"rgba(255,255,255,0.25)", margin:0, textAlign:"center" }}>
-        © 2026 <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>M Tonny Heru Susanto</span>. All rights reserved.
-      </p>
-      <span />
+    <footer style={{ background:"#060608", borderTop:"1px solid rgba(255,255,255,0.06)", padding:"20px 40px", fontFamily:"'Poppins',sans-serif" }}>
+      <style>{`
+        .footer-wrap { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; }
+        @media(max-width:600px){
+          .footer-wrap { grid-template-columns:1fr !important; text-align:center; gap:8px; }
+          .footer-logo { text-align:center; }
+          .footer-copy { text-align:center; }
+        }
+      `}</style>
+      <div className="footer-wrap">
+        <span className="footer-logo" style={{ fontSize:20, fontWeight:700, color:"white", fontFamily:"'Ubuntu',sans-serif" }}>
+          Porto<span style={{ color:"crimson" }}>folio</span>
+        </span>
+        <p className="footer-copy" style={{ fontSize:13, color:"rgba(255,255,255,0.25)", margin:0, textAlign:"center", whiteSpace:"nowrap" }}>
+          © 2026 <span style={{ color:"rgba(255,255,255,0.4)", fontWeight:600 }}>M Tonny Heru Susanto</span>. All rights reserved.
+        </p>
+        <span />
+      </div>
     </footer>
   );
 }

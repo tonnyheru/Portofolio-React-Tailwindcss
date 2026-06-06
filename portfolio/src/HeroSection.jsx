@@ -513,19 +513,6 @@ export default function HeroSection() {
         >
           {/* Left: main text */}
           <div style={{ flex: "1 1 0", minWidth: 0 }}>
-            {/* Badge */}
-            <div className="hero-fade-1" style={{ marginBottom: 28 }}>
-              <span className="badge-available">
-                <span style={{
-                  width: 8, height: 8, borderRadius: "50%",
-                  background: "#22c55e",
-                  boxShadow: "0 0 8px #22c55e",
-                  animation: "pulseGlow 2s ease infinite",
-                  display: "inline-block",
-                }} />
-                Open to Work — Bandung & Remote
-              </span>
-            </div>
 
             {/* Greeting */}
             <p

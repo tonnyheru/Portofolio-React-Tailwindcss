@@ -25,8 +25,8 @@ const CONTACTS = [
   { icon: "📸", label: "Instagram", text: "instagram.com/tonnyheru",   href: "https://instagram.com/tonnyheru" },
   { icon: "💼", label: "LinkedIn",  text: "linkedin.com/in/tonnyheru", href: "https://linkedin.com/in/tonnyheru" },
   { icon: "✉️", label: "Email",     text: "tonnyheru29@gmail.com",     href: "mailto:tonnyheru29@gmail.com" },
-  { icon: "📱", label: "Phone",     text: "08562122827",               href: null },
-  { icon: "📍", label: "Lokasi",    text: "Coblong, Bandung",          href: null },
+  { icon: "📱", label: "Phone",     text: "08562122827",               href: "https://wa.me/628562122827"},
+  { icon: "📍", label: "Lokasi",    text: "Bandung",          href: null },
 ];
 
 export default function ContactSection({ onMessagesChange }) {
