@@ -395,12 +395,12 @@ function SkillsSection() {
 
         {/* Intro bar */}
         <div className={`flex flex-col lg:flex-row items-start justify-between gap-10 mb-16 transition-all duration-700 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}>
-          <div className="flex-1 min-w-[260px]">
+          <div className="flex-1 min-w-0">
             <div className="inline-flex items-center gap-2.5 bg-[rgba(220,20,60,0.1)] border border-[rgba(220,20,60,0.3)] text-white/90 text-sm font-semibold px-4 py-1.5 rounded-full mb-4">
               <span className="w-2 h-2 rounded-full bg-crimson shadow-[0_0_8px_crimson] animate-pulse" />
               Full Stack Developer
             </div>
-            <p className="text-white/55 leading-7 mb-7 max-w-[480px] text-justify">
+            <p className="text-white/55 leading-7 mb-7 text-justify text-sm">
               Fokus saya adalah membangun aplikasi web yang scalable dan mudah dipelihara.
               Saya dapat mengerjakan end-to-end development: requirement gathering, desain database,
               pengembangan front-end/back-end, integrasi RESTful API, deployment, serta maintenance.
@@ -415,27 +415,27 @@ function SkillsSection() {
             </a>
           </div>
 
-          <div className="flex flex-row lg:flex-col gap-3.5 min-w-[160px]">
+          <div className="flex flex-row flex-wrap lg:flex-col gap-3 w-full lg:w-auto lg:min-w-[160px]">
             {[["30+", "Technologies"], ["8+", "Languages"], ["1+", "Years Coding"]].map(([num, label]) => (
               <div key={label}
-                className="bg-[#0d0d0d] border border-white/[0.07] rounded-2xl px-6 py-4 flex flex-col gap-1 relative overflow-hidden transition-all duration-250 hover:border-[rgba(220,20,60,0.35)] hover:translate-x-1"
-                style={{ borderLeft: "3px solid crimson", borderRadius: "14px" }}>
+                className="bg-[#0d0d0d] border border-white/[0.07] rounded-2xl px-5 py-4 flex flex-col gap-1 relative overflow-hidden transition-all duration-250 hover:border-[rgba(220,20,60,0.35)] hover:translate-x-1 flex-1 lg:flex-none"
+                style={{ borderLeft: "3px solid crimson", borderRadius: "14px", minWidth: 0 }}>
                 <span className="text-3xl font-bold text-white leading-none">
                   {num.replace("+", "")}<span className="text-xl text-crimson">+</span>
                 </span>
-                <span className="text-[0.72rem] text-white/40 uppercase tracking-widest font-medium">{label}</span>
+                <span className="text-[0.68rem] text-white/40 uppercase tracking-widest font-medium">{label}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Divider */}
-        <div className="flex items-center gap-4 mb-9">
-          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)" }} />
-          <span className="text-[0.7rem] font-bold tracking-[0.14em] uppercase text-white/30 whitespace-nowrap">
+        <div className="flex flex-wrap items-center gap-2 mb-9 px-2">
+          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)", minWidth: 40 }} />
+          <span className="text-[0.7rem] font-bold tracking-[0.14em] uppercase text-white/30 text-center px-2">
             Bahasa pemrograman dan teknologi yang saya gunakan
           </span>
-          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)" }} />
+          <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)", minWidth: 40 }} />
         </div>
 
         {/* Tool groups grid */}
@@ -592,25 +592,43 @@ function FloatingSocial() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-    const socials = [
-      { href: "https://github.com/tonnyheru", img: "https://cdn.simpleicons.org/github/ffffff", label: "GitHub" },
-      { href: "https://instagram.com/tonnyheru", img: "https://cdn.simpleicons.org/instagram/ffffff", label: "Instagram" },
-      { href: "https://linkedin.com/in/tonnyheru", img: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg", label: "LinkedIn" },
-      { href: "https://mail.google.com/mail/?view=cm&to=tonnyheru29@gmail.com", img: "https://cdn.simpleicons.org/gmail/ffffff", label: "Email" },
-    ];
+  const socials = [
+    { href: "https://github.com/tonnyheru", img: "https://cdn.simpleicons.org/github/ffffff", label: "GitHub", external: true },
+    { href: "https://instagram.com/tonnyheru", img: "https://cdn.simpleicons.org/instagram/ffffff", label: "Instagram", external: true },
+    { href: "https://linkedin.com/in/tonnyheru", img: "https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/linkedin.svg", label: "LinkedIn", external: true },
+    { href: "contact", img: "https://cdn.simpleicons.org/gmail/ffffff", label: "Email", external: false },
+  ];
+
+  const handleClick = (s) => {
+    if (!s.external) {
+      const el = document.getElementById(s.href);
+      if (el) {
+        const nav = document.querySelector("nav");
+        const offset = el.getBoundingClientRect().top + window.scrollY - (nav?.offsetHeight ?? 70);
+        window.scrollTo({ top: offset, behavior: "smooth" });
+      }
+    }
+  };
 
   return (
     <div
       className="fixed left-5 bottom-7 z-[9999] flex flex-col gap-2.5 transition-all duration-500"
       style={{ opacity: show ? 1 : 0, transform: show ? "translateY(0)" : "translateY(20px)", pointerEvents: show ? "auto" : "none" }}
     >
-      {socials.map((s) => (
-        <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" title={s.label}
-          className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-crimson hover:bg-crimson hover:-translate-y-1">
-          <img src={s.img} alt={s.label} className="w-5 h-5 object-contain"
-          style={{ filter: s.label === "LinkedIn" ? "brightness(0) invert(1)" : "none" }} />
-        </a>
-      ))}
+      {socials.map((s) =>
+        s.external ? (
+          <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" title={s.label}
+            className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-crimson hover:bg-crimson hover:-translate-y-1">
+            <img src={s.img} alt={s.label} className="w-5 h-5 object-contain"
+              style={{ filter: s.label === "LinkedIn" ? "brightness(0) invert(1)" : "none" }} />
+          </a>
+        ) : (
+          <button key={s.label} onClick={() => handleClick(s)} title={s.label}
+            className="w-10 h-10 rounded-xl bg-[#1a1a1a] border border-white/10 flex items-center justify-center transition-all duration-300 hover:border-crimson hover:bg-crimson hover:-translate-y-1 cursor-none">
+            <img src={s.img} alt={s.label} className="w-5 h-5 object-contain" />
+          </button>
+        )
+      )}
       <div className="w-px h-12 bg-white/20 mx-auto" />
     </div>
   );
@@ -691,12 +709,10 @@ export default function App() {
   const [globalMessages, setGlobalMessages] = useState([]); 
   const active = useActiveSection();
   const handleDone = useCallback(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     setLoaded(true);
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    }, 100);
   }, []);
 
   return (

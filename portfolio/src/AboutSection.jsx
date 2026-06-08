@@ -155,7 +155,7 @@ export default function AboutSection() {
             <p style={{ fontSize:14, color:"#555", lineHeight:1.9, marginBottom:24, textAlign:"justify" }}>
               Selama magang di <strong style={{ color:"#111" }}>Pengadilan Negeri Bale Bandung</strong>, saya membangun{" "}
               <strong style={{ color:"crimson" }}>Aplikasi Layung Peradilan</strong> — mulai dari requirement gathering,
-              desain database, development full stack, integrasi 3 API Disdukcapil, hingga deployment & maintenance.
+              desain database, development full stack, integrasi Disdukcapil, hingga deployment & maintenance.
             </p>
 
             {/* Fun facts */}

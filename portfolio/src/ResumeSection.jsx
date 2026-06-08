@@ -37,7 +37,7 @@ const TIMELINE = [
     subtitle: "Pengadilan Negeri Bale Bandung",
     period: "Feb 2025 – Agt 2025",
     color: "#DC143C",
-    description: "Magang sebagai Full Stack Developer selama 6 bulan. Membangun sistem administrasi peradilan Layung Peradilan dari requirement gathering hingga deployment production.",
+    description: "Magang sebagai Full Stack Developer selama 6 bulan. Membangun sistem administrasi Layung Peradilan dari requirement gathering hingga deployment production.",
     tags: ["Magang", "Full Stack", "Laravel", "PHP", "MySQL", "RESTful API"],
     highlight: "Nilai 90/100",
   },
@@ -46,13 +46,12 @@ const TIMELINE = [
     year: "Agt 2025",
     type: "achievement",
     icon: "🚀",
-    title: "Layung Peradilan — Go Live",
+    title: "Layung Peradilan",
     subtitle: "Production Deployment",
     period: "Agt 2025",
     color: "#059669",
-    description: "Sistem Layung Peradilan berhasil di-deploy ke production dan aktif digunakan oleh Pengadilan Negeri Bale Bandung. Terintegrasi dengan API untuk Disdukcapil Cimahi.",
+    description: "Sistem Layung Peradilan berhasil di-deploy ke production dan aktif digunakan oleh Pengadilan Negeri Bale Bandung. Terintegrasi dengan 3 API Disdukcapil.",
     tags: ["Production", "Deployment", "Achievement"],
-    highlight: "Live hingga sekarang",
   },
   {
     id: 5,
@@ -63,7 +62,7 @@ const TIMELINE = [
     subtitle: "UNIBI Bandung",
     period: "2026",
     color: "#f59e0b",
-    description: "Menyelesaikan studi S1 Teknik Informatika di UNIBI Bandung dengan IPK 3.65. Siap terjun ke dunia profesional sebagai Full Stack Developer.",
+    description: "Menyelesaikan studi S1 Teknik Informatika di UNIBI Bandung dengan IPK 3.65. Siap terjun ke dunia profesional sebagai Full Stack Developer / Web Developer.",
     tags: ["Lulus", "S.Kom", "Fresh Graduate"],
     highlight: "IPK 3.65",
   },
@@ -77,8 +76,7 @@ const TIMELINE = [
     period: "2026",
     color: "#22c55e",
     description: "Aktif mencari peluang kerja sebagai Full Stack Developer atau Web Developer. Siap berkontribusi dan terus belajar teknologi baru.",
-    tags: ["Available", "Full Stack", "Remote Friendly"],
-    highlight: "Tersedia sekarang",
+    tags: ["Available", "Full Stack"],
   },
 ];
 
@@ -109,6 +107,13 @@ function useInView(threshold = 0.15) {
 }
 
 /* ─── SKILL TAG ─── */
+const PHOTOSHOP_SVG = (
+  <svg width="14" height="14" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+    <path fill="#31A8FF" d="M0 0h24v24H0z"/>
+    <path fill="#fff" d="M5.5 17.5V6.5h4.2c1 0 1.8.2 2.5.7s1 1.2 1 2.2c0 .6-.1 1.1-.4 1.5s-.7.8-1.2 1c.7.2 1.2.6 1.6 1.1s.6 1.2.6 1.9c0 1.1-.4 2-1.1 2.6s-1.7.9-3 .9H5.5zm2-6.6h2c.6 0 1-.1 1.3-.4s.5-.7.5-1.2-.2-.9-.5-1.2-1-.4-1.8-.4H7.5v3.2zm0 4.8h2.3c.7 0 1.2-.2 1.6-.5s.6-.8.6-1.4-.2-1.1-.5-1.4-1-.5-1.7-.5H7.5v3.8zm9.1.9c-.5 0-1-.1-1.5-.4s-.9-.6-1.2-1l1-1c.2.3.5.5.8.7s.6.2.9.2.6-.1.8-.2.3-.4.3-.6c0-.3-.1-.5-.3-.7s-.6-.4-1.1-.6c-.5-.2-.9-.4-1.2-.6s-.6-.5-.8-.8-.3-.7-.3-1.1c0-.5.1-.9.4-1.3s.6-.7 1-.8.9-.3 1.4-.3c.5 0 1 .1 1.4.3s.7.4 1 .7l-.9 1c-.2-.2-.5-.4-.7-.5s-.5-.2-.8-.2-.5.1-.7.2-.3.3-.3.6c0 .3.1.5.3.6s.5.3.9.5c.5.2 1 .4 1.3.7s.6.5.8.9.3.8.3 1.2c0 .5-.1 1-.4 1.3s-.6.7-1 .8-.9.4-1.4.4z"/>
+  </svg>
+);
+
 function SkillTag({ label, color, icon }) {
   return (
     <div style={{
@@ -121,8 +126,10 @@ function SkillTag({ label, color, icon }) {
     }}
     onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 4px 14px ${color}40`; }}
     onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.boxShadow = ""; }}>
-      <img src={`https://cdn.simpleicons.org/${icon}/${color.replace("#","")}`} alt={label}
-        style={{ width: 14, height: 14, objectFit: "contain", flexShrink: 0 }} />
+      {icon === "photoshop" ? PHOTOSHOP_SVG : (
+        <img src={`https://cdn.simpleicons.org/${icon}/${color.replace("#","")}`} alt={label}
+          style={{ width: 14, height: 14, objectFit: "contain", flexShrink: 0 }} />
+      )}
       <span style={{ fontSize: 12, fontWeight: 600, color, whiteSpace: "nowrap" }}>{label}</span>
     </div>
   );
@@ -276,7 +283,8 @@ export default function ResumeSection() {
     { label: "React",            color: "#61DAFB", icon: "react" },
     { label: "Vite",             color: "#646CFF", icon: "vite" },
     { label: "Firebase",         color: "#FFCA28", icon: "firebase" },
-    { label: "Photoshop",        color: "#31A8FF", icon: "adobephotoshop" },
+    { label: "Photoshop",        color: "#31A8FF", icon: "photoshop" },
+    
   ];
 
   return (
@@ -401,7 +409,7 @@ export default function ResumeSection() {
               }}>
                 <span>💻</span> Tech Skills
               </h3>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, overflowX: "hidden" }}>
                 {SKILLS.map((s) => (
                   <SkillTag key={s.label} {...s} />
                 ))}

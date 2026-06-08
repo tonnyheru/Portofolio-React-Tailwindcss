@@ -960,7 +960,7 @@ function ContactSection() {
                 {[
                   { icon: "🐙", text: "github.com/tonnyheru", href: "https://github.com/tonnyheru" },
                   { icon: "📸", text: "instagram.com/tonnyheru", href: "https://instagram.com/tonnyheru" },
-                  { icon: "💼", text: "linkedin.com/in/tonnyheru", href: "https://linkedin.com/in/tonnyheru" },
+                  { icon: "💼", text: "linkedin.com/in/tonnyheru", href: "https://www.linkedin.com/in/tonny-heru-a83279297/" },
                   { icon: "✉️", text: "tonnyheru29@gmail.com", href: "mailto:tonnyheru29@gmail.com" },
                   { icon: "📱", text: "08562122827" },
                   { icon: "📍", text: "Coblong, Bandung" },

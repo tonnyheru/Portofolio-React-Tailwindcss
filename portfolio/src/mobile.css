@@ -1,27 +1,86 @@
 /* ═══════════════════════════════════════
    MOBILE RESPONSIVE — Global Fixes
-   Max-width: 768px
 ═══════════════════════════════════════ */
+
+/* ─── Prevent horizontal overflow globally ─── */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+* { box-sizing: border-box; }
+section { overflow-x: hidden !important; }
+
+/* ─── Navbar ─── */
+@media (max-width: 768px) {
+  .nav-desktop { display: none !important; }
+  .nav-burger  { display: flex !important; }
+  .nav-inner   { padding: 0 20px !important; }
+}
 
 /* ─── About ─── */
 @media (max-width: 768px) {
   .about-container { padding: 0 20px !important; }
-
-  /* Stack photo + content vertically & center photo */
   #about > div > div:last-child {
     flex-direction: column !important;
     align-items: center !important;
     gap: 32px !important;
   }
-
-  /* Shrink photo on mobile */
   #about img[alt*="Tonny"] {
     width: 220px !important;
     height: 260px !important;
   }
+}
 
-  /* Fun facts full width */
-  #about .fact-item { grid-column: span 2; }
+/* ─── Skills Section ─── */
+@media (max-width: 768px) {
+  /* Stats cards — stack vertikal */
+  #skills .flex.flex-row.lg\:flex-col {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  /* Container padding */
+  #skills .max-w-\[1300px\] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  /* Intro section stack */
+  #skills .flex.flex-col.lg\:flex-row {
+    flex-direction: column !important;
+  }
+
+  /* Stats row wrap */
+  #skills [class*="flex-row"][class*="lg:flex-col"] {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+
+  /* Tool grid — 1 kolom di mobile */
+  #skills .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Marquee container */
+  #skills .overflow-hidden {
+    max-width: 100vw !important;
+  }
+
+  /* Section text */
+  #skills p, #skills span {
+    word-break: break-word !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Stats — full width each */
+  #skills [style*="borderLeft: \"3px solid crimson\""],
+  #skills [style*="border-left: 3px solid crimson"] {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
 }
 
 /* ─── Projects ─── */
@@ -32,61 +91,74 @@
 /* ─── Resume ─── */
 @media (max-width: 900px) {
   .resume-container { padding: 0 20px !important; }
-  .resume-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .resume-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Timeline: semua kartu ke kiri */
+  .timeline-node { flex-direction: row !important; }
+  .timeline-card-wrap {
+    padding: 0 0 0 12px !important;
+    justify-content: flex-start !important;
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+  .timeline-empty { display: none !important; }
+
+  /* Timeline card tidak overflow */
+  .timeline-card-wrap > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Vertical line — pindah ke kiri */
+  #resume [style*="left: \"50%\""],
+  #resume [style*="left: 50%"] {
+    left: 20px !important;
+    transform: none !important;
+  }
+
+  /* Skill chips wrap */
+  #resume [style*="flexWrap"],
+  #resume [style*="flex-wrap"] {
+    flex-wrap: wrap !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Resume skill tags tidak overflow */
+  #resume [style*="whiteSpace: \"nowrap\""] {
+    white-space: normal !important;
+  }
 }
 
 /* ─── Contact ─── */
 @media (max-width: 768px) {
   .contact-container { padding: 0 20px !important; }
   .contact-grid { grid-template-columns: 1fr !important; }
-}
-
-/* ─── Navbar ─── */
-@media (max-width: 768px) {
-  .nav-desktop { display: none !important; }
-  .nav-burger  { display: flex !important; }
-  .nav-inner   { padding: 0 20px !important; }
+  .contact-info-grid { grid-template-columns: 1fr !important; }
 }
 
 /* ─── Footer ─── */
 @media (max-width: 600px) {
-  footer {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    padding: 16px 20px !important;
-    gap: 6px !important;
-  }
-  footer > p {
-    grid-column: unset !important;
-    text-align: center !important;
-  }
-}
-
-/* ─── Resume timeline — stack cards on mobile ─── */
-@media (max-width: 600px) {
-  /* Force all timeline nodes to left-aligned */
-  #resume [style*="flex-direction"] {
-    flex-direction: row !important;
-  }
-}
-
-/* ─── General text size clamps ─── */
-@media (max-width: 480px) {
-  html { font-size: 15px; }
-
-  /* Prevent overflow */
-  section { overflow-x: hidden !important; }
-
-  /* Fix grid contact info */
-  .contact-grid > div > div > div[style*="grid-template-columns: 1fr 1fr"] {
+  .footer-wrap {
     grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: 8px !important;
+  }
+  .footer-logo { text-align: center !important; }
+  .footer-copy {
+    text-align: center !important;
+    white-space: normal !important;
   }
 }
 
-/* ─── Contact info grid ─── */
+/* ─── General overflow fix ─── */
 @media (max-width: 480px) {
-  .contact-info-grid {
-    grid-template-columns: 1fr !important;
-  }
+  .contact-info-grid { grid-template-columns: 1fr !important; }
+  img { max-width: 100% !important; }
+  [style*="whiteSpace: nowrap"] { white-space: normal !important; }
 }
