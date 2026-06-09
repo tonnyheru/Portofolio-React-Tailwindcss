@@ -346,7 +346,7 @@ function Loader({ onDone }) {
 
         {/* Sub text */}
         <p className="loader-sub" style={{ fontSize:10, letterSpacing:"0.25em", color:"rgba(255,255,255,0.18)", textTransform:"uppercase", fontFamily:"'Poppins',sans-serif" }}>
-          Full Stack Developer · Bandung
+          Full Stack Developer
         </p>
       </div>
 
@@ -748,7 +748,12 @@ export default function App() {
 `}</style>
 
       {!loaded && <Loader onDone={handleDone} />}
-      <div style={{ opacity: loaded ? 1 : 0, transition: "opacity 0.5s ease" }}>
+      <div style={{ 
+          opacity: loaded ? 1 : 0, 
+          transition: "opacity 0.5s ease",
+          background: "#04040a",
+          minHeight: "100vh"
+        }}>
         <Navbar active={active} />
         <HeroSection />
         <AboutSection />
