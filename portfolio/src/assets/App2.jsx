@@ -6,7 +6,6 @@ import ResumeSection from "./ResumeSection";
 import AboutSection from "./AboutSection";
 import ContactSection from "./ContactSection";
 import Navbar from "./Navbar";
-import { useClickSound } from "./useClickSound";
 
 /* ─────────────────────────────────────────────
    DATA
@@ -703,64 +702,12 @@ function useOnlineCount() {
   return count;
 }
 /* ─────────────────────────────────────────────
-   SOUND TOGGLE — tombol kecil mute/unmute
-───────────────────────────────────────────── */
-function SoundToggle({ muted, setMuted, onToggleClick }) {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    const h = () => setShow(window.scrollY > 200);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
-  }, []);
-
-  return (
-    <button
-      onClick={() => {
-        onToggleClick(); // suara "klik" tetap terdengar saat toggle ditekan (sebelum mute berlaku)
-        setMuted((m) => !m);
-      }}
-      title={muted ? "Aktifkan suara klik" : "Matikan suara klik"}
-      aria-label={muted ? "Aktifkan suara klik" : "Matikan suara klik"}
-      className="fixed right-7 z-[9999] w-11 h-11 rounded-xl flex items-center justify-center text-lg transition-all duration-300 cursor-none"
-      style={{
-        bottom: 76, // di atas tombol ScrollUp biar tidak tumpuk
-        background: "rgba(20,20,26,0.85)",
-        border: "1px solid rgba(255,255,255,0.12)",
-        backdropFilter: "blur(10px)",
-        color: "rgba(255,255,255,0.8)",
-        opacity: show ? 1 : 0,
-        pointerEvents: show ? "auto" : "none",
-        transform: show ? "translateY(0)" : "translateY(12px)",
-      }}
-    >
-      {muted ? "🔇" : "🔊"}
-    </button>
-  );
-}
-
-/* ─────────────────────────────────────────────
    ROOT APP
 ───────────────────────────────────────────── */
 export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [globalMessages, setGlobalMessages] = useState([]); 
   const active = useActiveSection();
-  const { playClick, muted, setMuted } = useClickSound();
-
-  // Event delegation: satu listener global, cukup efisien ketimbang
-  // pasang onClick manual di ratusan tombol/link.
-  // Hanya trigger untuk elemen interaktif "penting" (button, a, [role=button]),
-  // supaya tidak berbunyi di setiap klik area kosong.
-  useEffect(() => {
-    const handler = (e) => {
-      const target = e.target.closest("button, a, [role='button']");
-      if (target) playClick();
-    };
-    document.addEventListener("click", handler);
-    return () => document.removeEventListener("click", handler);
-  }, [playClick]);
-
   const handleDone = useCallback(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     document.documentElement.scrollTop = 0;
@@ -818,7 +765,6 @@ export default function App() {
         <Footer />
         <ScrollUp />
         <FloatingSocial />
-        <SoundToggle muted={muted} setMuted={setMuted} onToggleClick={playClick} />
       </div>
     </>
   );

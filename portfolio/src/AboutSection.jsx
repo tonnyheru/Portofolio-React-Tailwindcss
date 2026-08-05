@@ -39,7 +39,7 @@ function PhotoCard({ visible }) {
         style={{ transformStyle:"preserve-3d", transition:"transform 0.15s ease", cursor:"none", position:"relative", display:"inline-block" }}>
         <div style={{ position:"absolute", inset:-20, borderRadius:32, background:"radial-gradient(circle, rgba(220,20,60,0.18) 0%, transparent 65%)", pointerEvents:"none", zIndex:0, filter:"blur(18px)" }} />
         <div style={{ position:"relative", zIndex:1, border:"2px solid rgba(220,20,60,0.22)", borderRadius:24, padding:4, background:"rgba(220,20,60,0.03)", boxShadow:"0 20px 60px rgba(220,20,60,0.1), 0 4px 20px rgba(0,0,0,0.08)" }}>
-          <img src="./images/profile-1.png" alt="M Tonny Heru Susanto S.Kom"
+          <img src="./images/pasfoto.png" alt="M Tonny Heru Susanto S.Kom"
             style={{ width:300, height:340, objectFit:"cover", borderRadius:20, display:"block" }} />
 
         </div>
@@ -71,7 +71,7 @@ export default function AboutSection() {
     { icon: "🎓", text: "IPK 3.65 · S1 Teknik Informatika UNIBI" },
     { icon: "🏛️", text: "Proyek aktif di Pengadilan Negeri Bale Bandung" },
     { icon: "🔗", text: "Integrasi API Disdukcapil Cimahi" },
-    { icon: "📍", text: "Bandung" },
+    { icon: "📍", text: "Bandung, Indonesia" },
   ];
 
   return (
@@ -170,7 +170,7 @@ export default function AboutSection() {
 
             {/* Buttons */}
             <div style={{ display:"flex", flexWrap:"wrap", gap:12 }}>
-              <a href="./CV/CV__M.TonnyHeruSusanto.pdf" download className="about-dl-btn"
+              <a href="./CV/cv_tonnyheru.pdf" download className="about-dl-btn"
                 style={{ background:"linear-gradient(135deg, crimson, #ff4d6d)", color:"white", boxShadow:"0 4px 20px rgba(220,20,60,0.3)" }}
                 onMouseEnter={(e) => e.currentTarget.style.boxShadow="0 12px 32px rgba(220,20,60,0.45)"}
                 onMouseLeave={(e) => e.currentTarget.style.boxShadow="0 4px 20px rgba(220,20,60,0.3)"}>

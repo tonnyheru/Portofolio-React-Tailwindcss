@@ -459,9 +459,11 @@ export default function ResumeSection() {
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {[
-                  { icon: "📱", label: "08562122827" },
+                  { icon: "🐙", label: "github.com/tonnyheru" },     
+                  { icon: "📸", label: "instagram.com/tonnyheru" },   
+                  { icon: "💼", label: "linkedin.com/tonnyheru" }, 
                   { icon: "✉️", label: "tonnyheru29@gmail.com" },
-                  { icon: "📍", label: "Sekeloa, Coblong, Bandung" },
+                  { icon: "📍", label: "Bandung, Indonesia" },
                 ].map((c) => (
                   <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <span style={{ fontSize: 14 }}>{c.icon}</span>
